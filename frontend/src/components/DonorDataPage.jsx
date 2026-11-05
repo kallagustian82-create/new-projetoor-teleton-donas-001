@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, User, FileText, Phone, Mail } from 'lucide-react';
+import { ArrowLeft, User, FileText, Phone, Mail, Search, User as UserIcon, ShoppingBag } from 'lucide-react';
 
 const validateCPF = (cpf) => {
   const nums = cpf.replace(/\D/g, '');
@@ -173,26 +173,28 @@ const DonorDataPage = () => {
       )}
 
       {/* AACD Header */}
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 md:px-10 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+      <header className="bg-white border-b border-gray-200">
+        <div className="container mx-auto px-4 md:px-10 py-3 flex items-center justify-between">
+          <a href="/" className="flex items-center" data-testid="aacd-logo-link">
             <img
               src="https://aacd.vtexassets.com/assets/vtex/assets-builder/aacd.store/0.0.49/logo-aacd___07c4f535c1d9859db0b880c512993be9.png"
               alt="AACD - vida é movimento"
-              style={{ height: '46px', width: 'auto', display: 'block' }}
+              style={{ height: '52px', width: 'auto', display: 'block' }}
             />
-            <span className="text-gray-700 text-sm md:text-base font-medium hidden sm:inline">Finalizar Doação</span>
+          </a>
+          <div className="flex items-center gap-5 md:gap-7 text-gray-700">
+            <button type="button" aria-label="Buscar" className="hover:text-pink-600 transition-colors" data-testid="header-search-btn">
+              <Search className="w-5 h-5" />
+            </button>
+            <button type="button" aria-label="Minha conta" className="hover:text-pink-600 transition-colors flex items-center gap-2" data-testid="header-account-btn">
+              <UserIcon className="w-5 h-5" />
+              <span className="hidden md:inline text-xs font-semibold uppercase tracking-wider">Minha Conta</span>
+            </button>
+            <button type="button" aria-label="Carrinho" className="hover:text-pink-600 transition-colors" data-testid="header-cart-btn">
+              <ShoppingBag className="w-5 h-5" />
+            </button>
           </div>
-          <button
-            onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/')}
-            className="text-gray-600 hover:text-pink-600 transition-colors flex items-center gap-2 text-sm font-semibold"
-            data-testid="back-button"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Voltar</span>
-          </button>
         </div>
-        <div style={{ height: '4px', backgroundColor: '#eb1941' }}></div>
       </header>
 
       {/* Main Content */}
@@ -200,6 +202,16 @@ const DonorDataPage = () => {
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left: Form */}
           <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 px-6 md:px-10 py-8 md:py-10">
+          {/* Voltar link */}
+          <button
+            onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/')}
+            className="text-gray-600 hover:text-pink-600 transition-colors flex items-center gap-2 text-sm font-semibold mb-6"
+            data-testid="back-button"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Voltar</span>
+          </button>
+
           {/* Title */}
           <h1 className="text-2xl md:text-3xl font-extrabold mb-1" style={{ color: '#323232' }}>
             Dados pessoais
