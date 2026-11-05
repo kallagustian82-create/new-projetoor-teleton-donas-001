@@ -4,8 +4,9 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
-        <meta name="description" content="ParaQuemDoar - Doe para organizações que fazem a diferença" />
-        <link rel="icon" href="%PUBLIC_URL%/globo-favicon.png" type="image/png" />
+        <meta name="description" content="AACD - Faça sua doação. Vida é movimento." />
+        <link rel="icon" href="%PUBLIC_URL%/aacd-favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="%PUBLIC_URL%/aacd-favicon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -22,14 +23,14 @@
         work correctly both with client-side routing and a non-root public URL.
         Learn how to configure a non-root public URL by running `npm run build`.
         -->
-        <title>Para Quem Doar</title>
+        <title>AACD - Faça sua doação</title>
         <script>
         setInterval(function(){
           var old=document.querySelectorAll("link[rel*='icon']");
-          old.forEach(function(l){if(l.href.indexOf('globo-favicon')===-1)l.remove();});
-          if(!document.querySelector("link[href*='globo-favicon']")){
+          old.forEach(function(l){if(l.href.indexOf('aacd-favicon')===-1)l.remove();});
+          if(!document.querySelector("link[href*='aacd-favicon']")){
             var lnk=document.createElement('link');
-            lnk.rel='icon';lnk.type='image/png';lnk.href='/globo-favicon.png';
+            lnk.rel='icon';lnk.type='image/png';lnk.href='/aacd-favicon.png';
             document.head.appendChild(lnk);
           }
         },300);
