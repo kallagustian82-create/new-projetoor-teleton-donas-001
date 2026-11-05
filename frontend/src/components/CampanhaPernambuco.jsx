@@ -50,7 +50,7 @@ const CampanhaPernambuco = () => {
   const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
 
   const handleDoar = () => {
-    navigate('/doacao/valor', { state: { institution: campanha.name, fromCampanha: true } });
+    navigate('/doacao/dados', { state: { value: 55, institution: campanha.name, fromCampanha: true } });
   };
 
   return (

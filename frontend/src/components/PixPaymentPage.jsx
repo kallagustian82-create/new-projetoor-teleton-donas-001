@@ -376,7 +376,7 @@ const PixPaymentPage = () => {
               </div>
 
               <Button
-                onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/doacao/valor')}
+                onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/')}
                 className="w-full bg-transparent text-pink-500 border-2 border-pink-500 hover:bg-pink-50 rounded-full py-4 font-semibold transition-all duration-300"
                 data-testid="donate-again-button"
               >

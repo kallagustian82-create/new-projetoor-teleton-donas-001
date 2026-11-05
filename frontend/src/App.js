@@ -3,7 +3,6 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import DonationPage from "./components/DonationPage";
-import DonationValuePage from "./components/DonationValuePage";
 import PixPaymentPage from "./components/PixPaymentPage";
 import LoginPage from "./components/LoginPage";
 import AdminDashboard from "./components/AdminDashboard";
@@ -55,7 +54,7 @@ function App() {
           <Route path="/instituicao/:slug" element={<DonationPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/doacao" element={<Navigate to="/instituicao/humus" replace />} />
-          <Route path="/doacao/valor" element={<DonationValuePage />} />
+          <Route path="/doacao/valor" element={<Navigate to="/" replace />} />
           <Route path="/doacao/dados" element={<DonorDataPage />} />
           <Route path="/doacao/pix" element={<PixPaymentPage />} />
           <Route path="/donaspainel" element={<LoginPage />} />

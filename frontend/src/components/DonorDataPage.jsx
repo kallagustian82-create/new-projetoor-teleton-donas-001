@@ -184,7 +184,7 @@ const DonorDataPage = () => {
             <span className="text-gray-700 text-sm md:text-base font-medium hidden sm:inline">Finalizar Doação</span>
           </div>
           <button
-            onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/doacao/valor')}
+            onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/')}
             className="text-gray-600 hover:text-pink-600 transition-colors flex items-center gap-2 text-sm font-semibold"
             data-testid="back-button"
           >

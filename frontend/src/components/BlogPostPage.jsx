@@ -128,7 +128,7 @@ const BlogPostPage = () => {
             <Button
               data-testid="blog-doar-btn"
               className="bg-pink-500 text-white hover:bg-pink-600 rounded-full px-12 py-6 text-lg font-semibold transition-all duration-300 hover:scale-105"
-              onClick={() => navigate('/doacao/valor')}
+              onClick={() => navigate('/')}
             >
               Fazer doação
             </Button>

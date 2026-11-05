@@ -191,7 +191,7 @@ const DonationPage = () => {
               <Button 
                 data-testid="fazer-doacao-btn"
                 className="w-full bg-transparent text-pink-500 border-2 border-pink-500 hover:bg-pink-50 rounded-full px-12 py-6 text-lg font-semibold transition-all duration-300 hover:scale-105"
-                onClick={() => navigate('/doacao/valor', { state: { institution: institution.name } })}
+                onClick={() => navigate('/')}
               >
                 Fazer doação
               </Button>
@@ -218,7 +218,7 @@ const DonationPage = () => {
         <div className="mt-12 flex items-center justify-between border-t pt-8">
           <Button 
             className="bg-transparent text-pink-500 border-2 border-pink-500 hover:bg-pink-50 rounded-full px-12 py-5 text-lg font-semibold transition-all duration-300"
-            onClick={() => navigate('/doacao/valor', { state: { institution: institution.name } })}
+            onClick={() => navigate('/')}
           >
             Fazer doação
           </Button>
