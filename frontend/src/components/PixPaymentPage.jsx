@@ -254,55 +254,89 @@ const PixPaymentPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12" data-testid="pix-payment-page">
-      <div className="container mx-auto px-4 md:px-6">
+    <div className="min-h-screen" style={{ backgroundColor: '#f4f4f4', fontFamily: "Montserrat, -apple-system, BlinkMacSystemFont, sans-serif" }} data-testid="pix-payment-page">
+      {/* AACD Header */}
+      <header
+        className="border-b border-gray-200"
+        style={{ background: 'linear-gradient(to right, #ffffff 0%, #ffffff 30%, #d9efef 100%)' }}
+      >
+        <div className="container mx-auto px-4 md:px-10 py-3">
+          <a href="/" className="inline-flex items-center" data-testid="aacd-logo-link">
+            <img
+              src="https://aacd.vtexassets.com/assets/vtex/assets-builder/aacd.store/0.0.49/logo-aacd___07c4f535c1d9859db0b880c512993be9.png"
+              alt="AACD - vida é movimento"
+              style={{ height: '52px', width: 'auto', display: 'block' }}
+            />
+          </a>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-4 md:px-10 py-6 md:py-10">
         <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4" style={{ fontFamily: "'Nunito', sans-serif" }}>
+          {/* Title block */}
+          <div className="mb-6 md:mb-8">
+            <h1 className="text-xl md:text-2xl font-extrabold leading-tight" style={{ color: '#323232' }}>
               Falta pouco! Sua colaboração será confirmada após a transferência PIX
             </h1>
-            <div className="h-1 w-20 bg-pink-500 mb-6"></div>
-            <p className="text-lg text-gray-700 mb-2">
-              Escolha uma das opções para concluir seu pagamento de <span className="font-bold">R$ {donationValue.toFixed(2).replace('.', ',')}</span>
+            <div className="h-1 w-16 mt-3 mb-4 rounded-full" style={{ backgroundColor: '#eb1941' }}></div>
+            <p className="text-sm md:text-base text-gray-600">
+              Escolha uma das opções para concluir seu pagamento de{' '}
+              <span className="font-bold" style={{ color: '#eb1941' }}>
+                R$ {donationValue.toFixed(2).replace('.', ',')}
+              </span>
             </p>
-            <div className="mt-4">
-              <p className="text-base text-gray-600 font-semibold">Aguardando pagamento</p>
-              <p className="text-4xl font-bold text-gray-800 mt-2" data-testid="pix-timer">{formatTime(timer)}</p>
+          </div>
+
+          {/* Timer card */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 px-6 py-5 mb-6 flex items-center justify-between">
+            <div>
+              <p className="text-xs md:text-sm text-gray-500 uppercase tracking-wider font-semibold">
+                Aguardando pagamento
+              </p>
+              <p className="text-3xl md:text-4xl font-extrabold mt-1" style={{ color: '#323232' }} data-testid="pix-timer">
+                {formatTime(timer)}
+              </p>
+            </div>
+            <div
+              className="w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-xs"
+              style={{ backgroundColor: '#eb1941' }}
+              aria-hidden="true"
+            >
+              PIX
             </div>
           </div>
 
           {/* Two Columns Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
             {/* Left Column - QR Code */}
-            <div className="hidden md:block bg-gray-100 rounded-2xl p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">QR Code</h2>
+            <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+              <h2 className="text-lg font-extrabold mb-5" style={{ color: '#323232' }}>QR Code</h2>
 
-              <ol className="space-y-3 mb-6 text-gray-700">
+              <ol className="space-y-2.5 mb-5 text-gray-700 text-sm">
                 <li className="flex">
-                  <span className="text-pink-500 font-bold mr-2">1.</span>
-                  <span>Abra o aplicativo ou site do seu banco usando o seu celular</span>
+                  <span className="font-bold mr-2" style={{ color: '#eb1941' }}>1.</span>
+                  <span>Abra o aplicativo ou site do seu banco pelo celular</span>
                 </li>
                 <li className="flex">
-                  <span className="text-pink-500 font-bold mr-2">2.</span>
-                  <span>Entre no sistema PIX e selecione para <span className="font-bold">pagar com QR Code</span></span>
+                  <span className="font-bold mr-2" style={{ color: '#eb1941' }}>2.</span>
+                  <span>Entre no PIX e selecione <span className="font-bold">pagar com QR Code</span></span>
                 </li>
                 <li className="flex">
-                  <span className="text-pink-500 font-bold mr-2">3.</span>
-                  <span>Escaneie o QR Code abaixo e confirme o pagamento.</span>
+                  <span className="font-bold mr-2" style={{ color: '#eb1941' }}>3.</span>
+                  <span>Escaneie o QR Code abaixo e confirme o pagamento</span>
                 </li>
               </ol>
 
               {/* QR Code Real */}
-              <div className="bg-white p-8 rounded-xl flex justify-center mb-4" data-testid="qr-code-container">
+              <div className="bg-gray-50 rounded-xl p-5 flex justify-center mb-3" data-testid="qr-code-container">
                 {loadingPix ? (
-                  <div className="w-64 h-64 flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
+                  <div className="w-56 h-56 flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-pink-500"></div>
                   </div>
                 ) : (
                   <QRCodeSVG
                     value={pixCode}
-                    size={256}
+                    size={220}
                     level="M"
                     includeMargin={true}
                     data-testid="qr-code-svg"
@@ -310,61 +344,63 @@ const PixPaymentPage = () => {
                 )}
               </div>
 
-              <p className="text-sm text-gray-600 text-center">Código válido por 24hrs</p>
+              <p className="text-xs text-gray-500 text-center">Código válido por 24hrs</p>
             </div>
 
             {/* Right Column - PIX Copia e Cola */}
-            <div className="bg-gray-100 rounded-2xl p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">PIX copia e cola</h2>
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+              <h2 className="text-lg font-extrabold mb-5" style={{ color: '#323232' }}>PIX copia e cola</h2>
 
-              <div className="mb-6">
-                <p className="flex mb-4">
-                  <span className="text-pink-500 font-bold mr-2">1.</span>
+              <div className="mb-5">
+                <p className="flex mb-3 text-sm">
+                  <span className="font-bold mr-2" style={{ color: '#eb1941' }}>1.</span>
                   <span className="text-gray-700">Copie o código abaixo</span>
                 </p>
 
-                <p className="text-sm text-gray-600 mb-2">CODIGO:</p>
-                <div className="bg-white rounded-xl p-4 flex items-center justify-between mb-4" data-testid="pix-code-container">
+                <p className="text-xs text-gray-500 mb-1.5 uppercase tracking-wider font-semibold">Código</p>
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-3 flex items-center gap-2 mb-1" data-testid="pix-code-container">
                   {loadingPix ? (
-                    <div className="flex-1 flex items-center justify-center py-4">
-                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-pink-500"></div>
+                    <div className="flex-1 flex items-center justify-center py-3">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-pink-500"></div>
                     </div>
                   ) : (
                     <>
-                      <p className="text-sm text-gray-600 break-all flex-1 mr-3" data-testid="pix-code-text">
+                      <p className="text-xs text-gray-700 break-all flex-1 font-mono leading-relaxed" data-testid="pix-code-text">
                         {pixCode}
                       </p>
                       <button
                         onClick={handleCopyCode}
-                        className="flex-shrink-0 w-12 h-12 bg-pink-500 hover:bg-pink-600 rounded-full flex items-center justify-center text-white transition-all duration-300"
+                        className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:brightness-110"
+                        style={{ backgroundColor: '#eb1941' }}
                         data-testid="copy-pix-code-button"
+                        aria-label="Copiar código PIX"
                       >
-                        {copiedVisual ? <Check className="w-6 h-6" /> : <Copy className="w-6 h-6" />}
+                        {copiedVisual ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                       </button>
                     </>
                   )}
                 </div>
               </div>
 
-              <ol className="space-y-3 mb-6 text-gray-700">
+              <ol className="space-y-2.5 mb-5 text-gray-700 text-sm">
                 <li className="flex">
-                  <span className="text-pink-500 font-bold mr-2">2.</span>
+                  <span className="font-bold mr-2" style={{ color: '#eb1941' }}>2.</span>
                   <span>Abra o aplicativo ou site do seu banco</span>
                 </li>
                 <li className="flex">
-                  <span className="text-pink-500 font-bold mr-2">3.</span>
-                  <span>Entre no sistema PIX e selecione <span className="font-bold">PIX copia e cola</span></span>
+                  <span className="font-bold mr-2" style={{ color: '#eb1941' }}>3.</span>
+                  <span>Entre no PIX e selecione <span className="font-bold">PIX copia e cola</span></span>
                 </li>
                 <li className="flex">
-                  <span className="text-pink-500 font-bold mr-2">4.</span>
-                  <span>Cole o código e confirme o pagamento.</span>
+                  <span className="font-bold mr-2" style={{ color: '#eb1941' }}>4.</span>
+                  <span>Cole o código e confirme o pagamento</span>
                 </li>
               </ol>
 
-              <p className="text-sm text-gray-600 mb-6">Código válido por 24hrs</p>
+              <p className="text-xs text-gray-500 mb-5">Código válido por 24hrs</p>
 
               {/* QR Code mobile (aparece apenas no mobile) */}
-              <div className="md:hidden bg-white p-6 rounded-xl flex justify-center mb-6" data-testid="qr-code-mobile">
+              <div className="md:hidden bg-gray-50 rounded-xl p-5 flex justify-center mb-5" data-testid="qr-code-mobile">
                 {!loadingPix && (
                   <QRCodeSVG
                     value={pixCode}
@@ -377,10 +413,16 @@ const PixPaymentPage = () => {
 
               <Button
                 onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/')}
-                className="w-full bg-transparent text-pink-500 border-2 border-pink-500 hover:bg-pink-50 rounded-full py-4 font-semibold transition-all duration-300"
+                className="w-full bg-transparent hover:bg-pink-50 py-4 text-sm font-bold uppercase tracking-wide transition-all duration-200"
+                style={{
+                  borderRadius: '8px',
+                  border: '2px solid #eb1941',
+                  color: '#eb1941',
+                  letterSpacing: '1px'
+                }}
                 data-testid="donate-again-button"
               >
-                DOAR NOVAMENTE
+                Doar novamente
               </Button>
             </div>
           </div>
