@@ -176,9 +176,11 @@ const DonorDataPage = () => {
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 md:px-10 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center font-black text-white" style={{ backgroundColor: '#eb1941', width: '46px', height: '46px', borderRadius: '10px', fontSize: '14px', letterSpacing: '1px' }}>
-              AACD
-            </div>
+            <img
+              src="https://aacd.vtexassets.com/assets/vtex/assets-builder/aacd.store/0.0.49/logo-aacd___07c4f535c1d9859db0b880c512993be9.png"
+              alt="AACD - vida é movimento"
+              style={{ height: '46px', width: 'auto', display: 'block' }}
+            />
             <span className="text-gray-700 text-sm md:text-base font-medium hidden sm:inline">Finalizar Doação</span>
           </div>
           <button
