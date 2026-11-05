@@ -52,7 +52,6 @@ const DonorDataPage = () => {
   const donationValue = location.state?.value || parseFloat(searchParams.get('value')) || 50;
   const isTaxDeduction = location.state?.taxDeduction || false;
   const institution = location.state?.institution || searchParams.get('institution') || '';
-  const fromCampanha = location.state?.fromCampanha || searchParams.get('fromCampanha') === 'true';
 
   const [formData, setFormData] = useState({
     name: '',
@@ -138,8 +137,7 @@ const DonorDataPage = () => {
           value: donationValue, 
           donor: formData,
           taxDeduction: isTaxDeduction,
-          institution,
-          fromCampanha
+          institution
         } 
       });
     }, 800);
@@ -153,8 +151,7 @@ const DonorDataPage = () => {
           value: donationValue, 
           donor: null,
           taxDeduction: false,
-          institution,
-          fromCampanha
+          institution
         } 
       });
     }, 800);
@@ -195,7 +192,7 @@ const DonorDataPage = () => {
           <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 px-6 md:px-10 py-8 md:py-10">
           {/* Voltar link */}
           <button
-            onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/')}
+            onClick={() => navigate('/')}
             className="text-gray-600 hover:text-pink-600 transition-colors flex items-center gap-2 text-sm font-semibold mb-6"
             data-testid="back-button"
           >

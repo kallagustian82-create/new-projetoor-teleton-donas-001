@@ -2,13 +2,9 @@ import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
-import DonationPage from "./components/DonationPage";
 import PixPaymentPage from "./components/PixPaymentPage";
 import LoginPage from "./components/LoginPage";
 import AdminDashboard from "./components/AdminDashboard";
-
-import BlogPostPage from "./components/BlogPostPage";
-import CampanhaPernambuco from "./components/CampanhaPernambuco";
 
 import DonorDataPage from "./components/DonorDataPage";
 
@@ -50,15 +46,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/campanha-pernambuco" element={<CampanhaPernambuco />} />
-          <Route path="/instituicao/:slug" element={<DonationPage />} />
-          <Route path="/blog/:slug" element={<BlogPostPage />} />
-          <Route path="/doacao" element={<Navigate to="/instituicao/humus" replace />} />
-          <Route path="/doacao/valor" element={<Navigate to="/" replace />} />
           <Route path="/doacao/dados" element={<DonorDataPage />} />
           <Route path="/doacao/pix" element={<PixPaymentPage />} />
           <Route path="/donaspainel" element={<LoginPage />} />
           <Route path="/donaspainel/dashboard" element={<AdminDashboard />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </div>

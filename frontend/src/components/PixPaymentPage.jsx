@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const API = '/api';
 
-const SuccessPage = ({ navigate, fromCampanha }) => {
+const SuccessPage = ({ navigate }) => {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center py-12" data-testid="success-page">
       <div className="container mx-auto px-4 md:px-6">
@@ -59,8 +59,8 @@ const SuccessPage = ({ navigate, fromCampanha }) => {
 
             {/* Doar novamente link */}
             <button
-              onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/doacao')}
-              className="text-blue-600 underline text-base hover:text-blue-800 transition-colors"
+              onClick={() => navigate('/')}
+              className="text-pink-600 underline text-base hover:text-pink-800 transition-colors"
               data-testid="donate-again-link"
               style={{ fontFamily: "'Nunito', sans-serif" }}
             >
@@ -80,7 +80,6 @@ const PixPaymentPage = () => {
   const donor = location.state?.donor || null;
   const taxDeduction = location.state?.taxDeduction || false;
   const institution = location.state?.institution || '';
-  const fromCampanha = location.state?.fromCampanha || false;
 
   const [timer, setTimer] = useState(300);
   const [copied, setCopied] = useState(false);
@@ -229,7 +228,7 @@ const PixPaymentPage = () => {
   };
 
   if (showSuccess) {
-    return <SuccessPage navigate={navigate} fromCampanha={fromCampanha} />;
+    return <SuccessPage navigate={navigate} />;
   }
 
   if (pixError) {
@@ -412,7 +411,7 @@ const PixPaymentPage = () => {
               </div>
 
               <Button
-                onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/')}
+                onClick={() => navigate('/')}
                 className="w-full bg-transparent hover:bg-pink-50 py-4 text-sm font-bold uppercase tracking-wide transition-all duration-200"
                 style={{
                   borderRadius: '8px',
