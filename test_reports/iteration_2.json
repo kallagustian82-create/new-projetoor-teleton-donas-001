@@ -1,0 +1,68 @@
+{
+  "summary": "Full E2E re-validation of ParaQuemDoar (clone) for production deploy. Backend 36/36 pytest tests PASSED across login, auth-guards, donations CRUD, PIX status/generate flow, visits tracking, telegram config persistence, stats, and cleanup. Frontend flows verified: homepage with hero carousel + search, institution page (Fazer doação), donation funnel (valor -> dados -> pix), admin login -> dashboard with stats + auto-refresh. Telegram bot is configured (chat_id=-1003742872851) and telegram_message_id is persisted on donation creation. Database is left clean (0 donations, 0 visits, pix_key='') ready for deploy.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/health", "issue": "Without /api prefix, /health is routed to frontend (returns HTML) due to Kubernetes ingress rule, only /api/health is reachable from outside. Not blocking."},
+      {"endpoint": "/api/admin/donations (POST)", "issue": "Returns 200 (not 201) on resource creation. Cosmetic only."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "AdminDashboard", "issues": ["React hydration warning: <tr> cannot be a child of <span> due to data-ve-dynamic visual-edit wrapper. Cosmetic – does not affect functionality. Already reported in iteration 1."]},
+      {"screen": "Homepage", "issues": ["CSP blocks Cloudflare beacon script. Cosmetic – does not affect app."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_admin_api.py",
+    "/app/backend/tests/test_admin_extra.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "JWT_SECRET default value is hardcoded in admin_routes.py — recommend setting JWT_SECRET in backend/.env (32+ chars) before production deploy.",
+    "ADMIN_USERNAME/ADMIN_PASSWORD have hardcoded defaults in admin_routes.py (donas/Seinao10@@). For production, set them as env vars and remove defaults.",
+    "AdminDashboard hydration warning is caused by visual-edit wrapper injecting <span> nodes between <tbody> and <tr>. If the visual-edit tooling is stripped at build time it disappears."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_admin_extra.py"
+  ],
+  "success_rate": {"backend": "100% (36/36 tests passed)", "frontend": "100% (all critical flows working)"},
+  "test_credentials": {"admin_username": "donas", "admin_password": "Seinao10@@", "admin_route": "/donaspainel"},
+  "seed_data_creation": "Tests created TEST_ donations and visits during run, then cleaned up. Final DB state: 0 donations, 0 visits, pix_key='' (verified via API). Telegram chat_id remains configured at -1003742872851 (from previous session — required for telegram notifications post-deploy).",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "App is ready for deployment. PIX key is intentionally empty. /campanha-pernambuco renders an iframe to /campanha-pernambuco.html (static landing); navigation to /doacao/dados only happens via window.postMessage from the iframe (this is by design, not an auto-redirect on the React route itself). Integration end-to-end works: donation created from frontend appears in /api/admin/donations and includes telegram_message_id when bot configured.",
+  "endpoints_validated": [
+    "GET /api/health -> 200",
+    "POST /api/admin/login (correct creds) -> 200 + JWT",
+    "POST /api/admin/login (wrong creds) -> 401",
+    "GET /api/admin/donations (no auth) -> 401/403",
+    "GET /api/admin/donations (auth) -> 200 list, _id excluded",
+    "POST /api/admin/donations (public) -> 200 with donation_id, copied=false, created_at, location",
+    "PATCH /api/admin/donations/{id} {copied:true} -> 200 (calls edit_message)",
+    "DELETE /api/admin/donations/{id} -> requires auth, returns 200 / 404",
+    "DELETE /api/admin/donations -> requires auth, clears all",
+    "GET /api/admin/stats -> total_value, total_donations, copied_count",
+    "GET /api/admin/config -> pix_key (auth)",
+    "PUT /api/admin/config/pix-key -> updates pix_key (auth)",
+    "GET /api/admin/pix/status -> {configured: bool} (public)",
+    "GET /api/admin/pix/generate?value=X -> 400 when key empty, 200 with payload containing 'br.gov.bcb.pix' when configured",
+    "GET /api/admin/config/telegram -> {chat_id, bot_configured:true}",
+    "POST /api/admin/visits/track (public) -> 200",
+    "GET /api/admin/visits (auth) -> {total, visits[]}",
+    "DELETE /api/admin/visits (auth) -> clears"
+  ],
+  "frontend_flows_validated": [
+    "GET / -> hero carousel (Pernambuco emergency slide visible), Header with search, Globo logo",
+    "Header search -> filters institutions ('Nenhuma instituição encontrada' for invalid query)",
+    "GET /instituicao/humus -> renders institution detail with images, description and Fazer doação button",
+    "Click Fazer doação -> /doacao/valor -> click R$ preset -> Continuar -> /doacao/dados -> Doar anonimamente -> /doacao/pix",
+    "/doacao/pix correctly shows 'Chave PIX não configurada. Contate o administrador.' with Voltar button (graceful 400 handling)",
+    "GET /donaspainel -> login form; correct creds redirect to /donaspainel/dashboard",
+    "AdminDashboard -> shows stats cards (Total Arrecadado, Total de Doações, Códigos Copiados, Acessos), donations table, Configurações tab, Sair button"
+  ],
+  "rca of the issue": "No blocking issues. The only behavioural caveat: /campanha-pernambuco does NOT auto-redirect on its own — it loads /campanha-pernambuco.html in an iframe and only redirects via postMessage when the user picks a value inside the iframe. This was described as 'auto-redirect' in the task brief but is implemented as a landing-page-with-iframe pattern; both are acceptable depending on intended UX. Confirm with product owner if a true server-side or React-route-level redirect is desired."
+}
