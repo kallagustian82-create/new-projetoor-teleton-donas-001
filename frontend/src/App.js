@@ -1,12 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Header from "./components/Header";
-import HeroCarousel from "./components/HeroCarousel";
-import InitiativesGrid from "./components/InitiativesGrid";
-import BlogSection from "./components/BlogSection";
-import Footer from "./components/Footer";
 import DonationPage from "./components/DonationPage";
 import DonationValuePage from "./components/DonationValuePage";
 import PixPaymentPage from "./components/PixPaymentPage";
@@ -21,16 +16,27 @@ import DonorDataPage from "./components/DonorDataPage";
 const API = '/api';
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handler = (event) => {
+      const data = event.data || {};
+      if (data.type === 'aacd-donate') {
+        const value = parseFloat(data.value) || 55;
+        navigate('/doacao/dados', { state: { value } });
+      }
+    };
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
+  }, [navigate]);
+
   return (
-    <>
-      <Header />
-      <main>
-        <HeroCarousel />
-        <InitiativesGrid />
-        <BlogSection />
-      </main>
-      <Footer />
-    </>
+    <iframe
+      title="ParaQuemDoar"
+      src="/aacd.html"
+      data-testid="home-aacd-frame"
+      style={{ border: 'none', width: '100%', height: '100vh', display: 'block' }}
+    />
   );
 };
 
