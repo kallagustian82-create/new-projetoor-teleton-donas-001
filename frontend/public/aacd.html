@@ -5,11 +5,21 @@
 --><meta charset=utf-8><style>
 .aacd-tab-layout-0-x-listItemChildren:before{pointer-events:none!important;}
 #myvalue{position:relative;z-index:5;pointer-events:auto!important;cursor:text;}
+/* Red state for the custom-value card */
+.aacd-outro-active .aacd-store-0-x-donation_prices{background:#eb1941!important;border-radius:1rem;color:#fff!important;}
+.aacd-outro-active .aacd-store-0-x-donation_prices *{color:#fff!important;}
+.aacd-outro-active .aacd-store-0-x-donation_prices input{background:#fff!important;color:#333!important;caret-color:#333!important;}
+.aacd-outro-warning{color:#ffe08a!important;font-weight:700;}
+/* Disabled confirm button */
+.aacd-confirm-disabled{opacity:.45!important;filter:grayscale(.3);cursor:not-allowed!important;pointer-events:none!important;}
+/* Fallback image for the second hero slide */
+.aacd-slide-fallback{width:100%;height:100%;display:block;object-fit:cover;}
 </style>
 <script>
 window.__aacdWired = false;
 (function(){
-  var sel = 55;
+  var MIN = 55;
+  var sel = 0; // no value chosen yet
   function fmtBRL(cents){
     var v=(cents/100).toFixed(2).replace('.',',');
     return 'R$ '+v.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
@@ -19,9 +29,55 @@ window.__aacdWired = false;
       li.classList.remove('aacd-tab-layout-0-x-listItemActive');
     });
   }
+  function getOutroCard(){
+    var inp = document.getElementById('myvalue');
+    if(!inp) return null;
+    return inp.closest('.aacd-tab-layout-0-x-listItemChildren') || inp.parentElement;
+  }
+  function setOutroState(on){
+    var card = getOutroCard();
+    if(!card) return;
+    card.classList.toggle('aacd-outro-active', !!on);
+  }
+  function setWarning(msg){
+    var card = getOutroCard();
+    if(!card) return;
+    var w = card.querySelector('.aacd-outro-warn');
+    if(msg){
+      if(!w){
+        w = document.createElement('p');
+        w.className = 'aacd-outro-warn aacd-outro-warning';
+        w.style.margin = '6px 0 0';
+        w.style.fontSize = '12px';
+        var small = card.querySelector('.aacd-store-0-x-donation_prices_small');
+        (small ? small.parentNode : card).appendChild(w);
+      }
+      w.textContent = msg;
+    } else if(w){
+      w.remove();
+    }
+  }
+  function updateMinText(){
+    document.querySelectorAll('.aacd-store-0-x-donation_prices_small').forEach(function(p){
+      if(/Valor m.nimo/i.test(p.textContent||'')){
+        p.innerHTML = '* Valor m\u00ednimo de R$ '+MIN;
+      }
+    });
+  }
+  function updateConfirmBtn(){
+    document.querySelectorAll('button').forEach(function(b){
+      var t = (b.textContent||'').trim();
+      if(/CONFIRMAR\s+DOA/i.test(t)){
+        if(sel >= MIN){ b.classList.remove('aacd-confirm-disabled'); b.removeAttribute('aria-disabled'); }
+        else { b.classList.add('aacd-confirm-disabled'); b.setAttribute('aria-disabled','true'); }
+      }
+    });
+  }
   function activatePreset(li){
     clearPresets();
     li.classList.add('aacd-tab-layout-0-x-listItemActive');
+    setOutroState(false);
+    setWarning('');
     var cv=document.getElementById('myvalue');
     if(cv){cv.value='';}
   }
@@ -39,12 +95,20 @@ window.__aacdWired = false;
         var t = (b.textContent || '').trim();
         if (/CONFIRMAR\s+DOA/i.test(t)) {
           e.preventDefault(); e.stopImmediatePropagation();
+          if (sel < MIN) {
+            var cv = document.getElementById('myvalue');
+            if(cv){ try{ cv.focus(); }catch(_){} }
+            setOutroState(true);
+            setWarning('O valor m\u00ednimo de doa\u00e7\u00e3o \u00e9 R$ '+MIN+',00');
+            try { window.alert('O valor m\u00ednimo de doa\u00e7\u00e3o \u00e9 R$ '+MIN+',00. Escolha um dos valores sugeridos ou digite um valor maior ou igual a R$ '+MIN+',00.'); } catch(_){}
+            return;
+          }
           window.parent.postMessage({ type: 'aacd-donate', value: sel }, '*');
           return;
         }
         var li = b.closest ? b.closest('.aacd-tab-layout-0-x-listItem') : null;
         var m = t.match(/R\$\s*([\d.]+)/);
-        if (li && m) { sel = parseInt(m[1].replace(/\./g, ''), 10); activatePreset(li); return; }
+        if (li && m) { sel = parseInt(m[1].replace(/\./g, ''), 10); activatePreset(li); updateConfirmBtn(); return; }
       }
     } catch (err) { window.__aacdErr = String(err); }
   }, true);
@@ -53,11 +117,15 @@ window.__aacdWired = false;
   document.addEventListener('input', function(e){
     if (e.target && e.target.id === 'myvalue') {
       var digits = (e.target.value || '').replace(/\D/g,'');
-      if (!digits) { e.target.value=''; clearPresets(); sel = 0; return; }
+      if (!digits) { e.target.value=''; clearPresets(); setOutroState(false); setWarning(''); sel = 0; updateConfirmBtn(); return; }
       var cents = parseInt(digits,10);
       sel = cents/100;
       e.target.value = fmtBRL(cents);
       clearPresets();
+      setOutroState(true);
+      if (sel < MIN){ setWarning('O valor m\u00ednimo \u00e9 R$ '+MIN+',00'); }
+      else { setWarning(''); }
+      updateConfirmBtn();
     }
   }, true);
 
@@ -93,6 +161,20 @@ window.__aacdWired = false;
   function wireCarousel(){
     var track = document.querySelector('[data-testid=slider-track]');
     if(!track) return;
+    // Fill the 2nd slide (data-index=2) with the physio banner if empty
+    try {
+      var slides = track.querySelectorAll('.vtex-slider-layout-0-x-slide[data-index]');
+      slides.forEach(function(sl){
+        var container = sl.querySelector('.vtex-slider-layout-0-x-slideChildrenContainer');
+        if(container && !container.querySelector('img')){
+          var img = document.createElement('img');
+          img.src = '/images/banner-physio.jpg';
+          img.alt = 'Fisioterapia AACD';
+          img.className = 'aacd-slide-fallback';
+          container.appendChild(img);
+        }
+      });
+    } catch(e){ window.__aacdErr='slideimg:'+e; }
     var dots = document.querySelectorAll('.vtex-slider-layout-0-x-paginationDot');
     var leftArrow = document.querySelector('.vtex-slider-layout-0-x-sliderLeftArrow');
     var rightArrow = document.querySelector('.vtex-slider-layout-0-x-sliderRightArrow');
@@ -112,8 +194,11 @@ window.__aacdWired = false;
   }
 
   function init(){
+    try { clearPresets(); } catch(e){}
+    try { updateMinText(); } catch(e){ window.__aacdErr='min:'+e; }
     try { wireToggle(); } catch(e){ window.__aacdErr='toggle:'+e; }
     try { wireCarousel(); } catch(e){ window.__aacdErr='carousel:'+e; }
+    try { updateConfirmBtn(); } catch(e){ window.__aacdErr='btn:'+e; }
     window.__aacdWired = true;
   }
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); }
