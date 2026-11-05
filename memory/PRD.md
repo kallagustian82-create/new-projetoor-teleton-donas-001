@@ -10,7 +10,7 @@ Clone do site https://www.paraquemdoar.com.br/ - plataforma de doações com pai
 - **Banco:** MongoDB local, DB=`test_database`, collections: `donations`, `visits`, `config`
 
 ## Credenciais
-- **Admin Panel:** login: `donas`, senha: `Seinao10@@`
+- **Admin Panel:** usuário e senha em `ADMIN_USERNAME` / `ADMIN_PASSWORD` no `backend/.env` (fora do código)
 - **Rota Admin:** `/donaspainel`
 - **Telegram Bot:** `@Novo_pix_gerado_PQD_bot` (token em `backend/.env`)
 - **Grupo Telegram:** "Novo pagamento _Donas" (chat_id `-1003742872851`)

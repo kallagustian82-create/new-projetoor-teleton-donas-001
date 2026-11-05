@@ -14,8 +14,8 @@ import pytest
 import requests
 
 BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', '').rstrip('/')
-ADMIN_USERNAME = "donas"
-ADMIN_PASSWORD = "Seinao10@@"
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
 
 
 @pytest.fixture(scope="module")

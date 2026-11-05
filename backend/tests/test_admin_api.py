@@ -9,8 +9,8 @@ import os
 BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', '').rstrip('/')
 
 # Test credentials
-ADMIN_USERNAME = "donas"
-ADMIN_PASSWORD = "Seinao10@@"
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
 INVALID_USERNAME = "invalid_user"
 INVALID_PASSWORD = "wrong_password"
 
