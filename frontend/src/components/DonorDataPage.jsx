@@ -172,28 +172,27 @@ const DonorDataPage = () => {
         </div>
       )}
 
-      {/* Header */}
-      <header className="bg-white shadow-sm py-4 md:py-6">
-        <div className="container mx-auto px-4 md:px-6">
-          <button 
-            onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/doacao/valor')}
-            className="text-gray-600 hover:text-gray-800 transition-colors flex items-center space-x-2"
-            data-testid="back-button"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span>Voltar</span>
-          </button>
-        </div>
-      </header>
-
       {/* Main Content */}
-      <div className="container mx-auto px-4 md:px-6 py-8 md:py-16">
-        <div className="max-w-2xl mx-auto">
+      <div className="container mx-auto px-4 md:px-6 py-6 md:py-10">
+        <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+          {/* Header inside card */}
+          <div className="px-6 md:px-10 pt-6 pb-4 border-b border-gray-100">
+            <button 
+              onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/doacao/valor')}
+              className="text-gray-600 hover:text-gray-800 transition-colors flex items-center space-x-2"
+              data-testid="back-button"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span className="text-base">Voltar</span>
+            </button>
+          </div>
+
+          <div className="px-6 md:px-10 py-8 md:py-10 bg-gray-50/40">
           {/* Title */}
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-left mb-2" style={{ fontFamily: "'Nunito', sans-serif" }}>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800 text-left mb-2" style={{ fontFamily: "'Nunito', sans-serif" }}>
             Dados pessoais
           </h1>
-          <p className="text-gray-500 text-left mb-8">
+          <p className="text-gray-600 text-left mb-8">
             Valor da doação: <span className="font-bold text-pink-500">R$ {donationValue.toFixed(2).replace('.', ',')}</span>
           </p>
 
@@ -319,6 +318,7 @@ const DonorDataPage = () => {
               </Button>
             </>
           )}
+          </div>
         </div>
       </div>
     </div>
