@@ -161,7 +161,7 @@ const DonorDataPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#f4f4f4', fontFamily: "Montserrat, -apple-system, BlinkMacSystemFont, sans-serif" }}>
       {/* Loading Overlay */}
       {isLoading && (
         <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
@@ -172,28 +172,38 @@ const DonorDataPage = () => {
         </div>
       )}
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 md:px-6 py-6 md:py-10">
-        <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-          {/* Header inside card */}
-          <div className="px-6 md:px-10 pt-6 pb-4 border-b border-gray-100">
-            <button 
-              onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/doacao/valor')}
-              className="text-gray-600 hover:text-gray-800 transition-colors flex items-center space-x-2"
-              data-testid="back-button"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="text-base">Voltar</span>
-            </button>
+      {/* AACD Header */}
+      <header className="bg-white shadow-sm">
+        <div className="container mx-auto px-4 md:px-10 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center font-black text-white" style={{ backgroundColor: '#eb1941', width: '46px', height: '46px', borderRadius: '10px', fontSize: '14px', letterSpacing: '1px' }}>
+              AACD
+            </div>
+            <span className="text-gray-700 text-sm md:text-base font-medium hidden sm:inline">Finalizar Doação</span>
           </div>
+          <button
+            onClick={() => navigate(fromCampanha ? '/campanha-pernambuco' : '/doacao/valor')}
+            className="text-gray-600 hover:text-pink-600 transition-colors flex items-center gap-2 text-sm font-semibold"
+            data-testid="back-button"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Voltar</span>
+          </button>
+        </div>
+        <div style={{ height: '4px', backgroundColor: '#eb1941' }}></div>
+      </header>
 
-          <div className="px-6 md:px-10 py-8 md:py-10 bg-gray-50/40">
+      {/* Main Content */}
+      <div className="container mx-auto px-4 md:px-10 py-6 md:py-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          {/* Left: Form */}
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 px-6 md:px-10 py-8 md:py-10">
           {/* Title */}
-          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800 text-left mb-2" style={{ fontFamily: "'Nunito', sans-serif" }}>
+          <h1 className="text-2xl md:text-3xl font-extrabold mb-1" style={{ color: '#323232' }}>
             Dados pessoais
           </h1>
-          <p className="text-gray-600 text-left mb-8">
-            Valor da doação: <span className="font-bold text-pink-500">R$ {donationValue.toFixed(2).replace('.', ',')}</span>
+          <p className="text-gray-500 text-sm mb-8">
+            Preencha com seus dados para concluir a doação.
           </p>
 
           {/* Form */}
@@ -211,7 +221,7 @@ const DonorDataPage = () => {
                   value={formData.name}
                   onChange={(e) => handleChange('name', e.target.value)}
                   placeholder="Digite seu nome completo"
-                  className={`w-full pl-12 pr-4 py-4 rounded-xl border-2 ${errors.name ? 'border-red-400' : 'border-gray-300'} focus:border-pink-500 focus:outline-none transition-colors text-base`}
+                  className={`w-full pl-12 pr-4 py-3.5 rounded-lg border ${errors.name ? 'border-red-400' : 'border-gray-300'} focus:border-pink-500 focus:ring-2 focus:ring-pink-100 focus:outline-none transition-colors text-sm bg-white`}
                 />
               </div>
               {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
@@ -230,7 +240,7 @@ const DonorDataPage = () => {
                   value={formData.document}
                   onChange={(e) => handleChange('document', formatDocument(e.target.value))}
                   placeholder="000.000.000-00"
-                  className={`w-full pl-12 pr-4 py-4 rounded-xl border-2 ${errors.document ? 'border-red-400' : 'border-gray-300'} focus:border-pink-500 focus:outline-none transition-colors text-base`}
+                  className={`w-full pl-12 pr-4 py-3.5 rounded-lg border ${errors.document ? 'border-red-400' : 'border-gray-300'} focus:border-pink-500 focus:ring-2 focus:ring-pink-100 focus:outline-none transition-colors text-sm bg-white`}
                 />
               </div>
               {errors.document && <p className="text-red-500 text-sm mt-1">{errors.document}</p>}
@@ -249,7 +259,7 @@ const DonorDataPage = () => {
                   value={formData.phone}
                   onChange={(e) => handleChange('phone', formatPhone(e.target.value))}
                   placeholder="(00) 00000-0000"
-                  className={`w-full pl-12 pr-4 py-4 rounded-xl border-2 ${errors.phone ? 'border-red-400' : 'border-gray-300'} focus:border-pink-500 focus:outline-none transition-colors text-base`}
+                  className={`w-full pl-12 pr-4 py-3.5 rounded-lg border ${errors.phone ? 'border-red-400' : 'border-gray-300'} focus:border-pink-500 focus:ring-2 focus:ring-pink-100 focus:outline-none transition-colors text-sm bg-white`}
                 />
               </div>
               {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
@@ -268,57 +278,90 @@ const DonorDataPage = () => {
                   value={formData.email}
                   onChange={(e) => handleChange('email', e.target.value)}
                   placeholder="seu@email.com"
-                  className={`w-full pl-12 pr-4 py-4 rounded-xl border-2 ${errors.email ? 'border-red-400' : 'border-gray-300'} focus:border-pink-500 focus:outline-none transition-colors text-base`}
+                  className={`w-full pl-12 pr-4 py-3.5 rounded-lg border ${errors.email ? 'border-red-400' : 'border-gray-300'} focus:border-pink-500 focus:ring-2 focus:ring-pink-100 focus:outline-none transition-colors text-sm bg-white`}
                 />
               </div>
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
           </div>
 
-          {/* Tax Deduction Info */}
-          {isTaxDeduction && (
-            <div className="bg-pink-50 border border-pink-200 rounded-2xl p-6 mb-8">
-              <p className="text-gray-700 text-sm leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>
-                Após fazer sua doação, você poderá deduzir o valor no seu próximo Imposto de Renda. Em breve, você receberá um e-mail com o recibo da sua contribuição. Agradecemos imensamente por se juntar a nós nesse projeto social, que faz a diferença na vida de muitas pessoas!
-              </p>
-            </div>
-          )}
-
           {/* Continue Button */}
           <Button
             data-testid="donor-continue-button"
             onClick={handleContinue}
             disabled={!isFormFilled}
-            className={`w-full rounded-full py-6 text-xl font-bold transition-all duration-300 shadow-lg ${
+            className={`w-full py-5 text-base font-bold uppercase tracking-wide transition-all duration-300 ${
               isFormFilled
-                ? 'bg-gradient-to-r from-pink-500 to-red-500 text-white hover:from-pink-600 hover:to-red-600 hover:scale-105'
+                ? 'text-white hover:brightness-110'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
-            style={{ fontFamily: "'Nunito', sans-serif" }}
+            style={{
+              fontFamily: "Montserrat, sans-serif",
+              borderRadius: '8px',
+              backgroundColor: isFormFilled ? '#eb1941' : undefined,
+              letterSpacing: '1px'
+            }}
           >
-            CONTINUAR
+            Continuar
           </Button>
 
           {/* Divider + Anonymous (hidden for tax deduction) */}
           {!isTaxDeduction && (
             <>
               <div className="flex items-center my-6">
-                <div className="flex-1 h-px bg-gray-300"></div>
-                <span className="px-4 text-sm text-gray-500">ou</span>
-                <div className="flex-1 h-px bg-gray-300"></div>
+                <div className="flex-1 h-px bg-gray-200"></div>
+                <span className="px-4 text-xs text-gray-400 uppercase tracking-wider">ou</span>
+                <div className="flex-1 h-px bg-gray-200"></div>
               </div>
 
               <Button
                 data-testid="donor-anonymous-button"
                 onClick={handleAnonymous}
-                className="w-full bg-transparent text-pink-500 border-2 border-pink-500 hover:bg-pink-50 rounded-full py-5 text-lg font-semibold transition-all duration-300"
-                style={{ fontFamily: "'Nunito', sans-serif" }}
+                className="w-full bg-transparent hover:bg-pink-50 py-5 text-base font-bold uppercase tracking-wide transition-all duration-300"
+                style={{
+                  fontFamily: "Montserrat, sans-serif",
+                  borderRadius: '8px',
+                  border: '2px solid #eb1941',
+                  color: '#eb1941',
+                  letterSpacing: '1px'
+                }}
               >
                 Doar anonimamente
               </Button>
             </>
           )}
           </div>
+
+          {/* Right: Donation Summary */}
+          <aside className="lg:col-span-1">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-7 lg:sticky lg:top-6">
+              <h2 className="text-lg font-extrabold mb-4" style={{ color: '#323232' }}>
+                Resumo da sua Doa&ccedil;&atilde;o
+              </h2>
+              <div className="rounded-xl p-5" style={{ backgroundColor: '#fff3f5' }}>
+                <div className="flex items-center justify-between text-sm mb-2">
+                  <span className="text-gray-600">Valor da doa&ccedil;&atilde;o</span>
+                  <span className="font-semibold text-gray-800">R$ {donationValue.toFixed(2).replace('.', ',')}</span>
+                </div>
+                <div className="h-px my-3" style={{ backgroundColor: '#f1c6cf' }}></div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-700 font-semibold">Total</span>
+                  <span className="text-xl font-extrabold" style={{ color: '#eb1941' }}>
+                    R$ {donationValue.toFixed(2).replace('.', ',')}
+                  </span>
+                </div>
+              </div>
+              <p className="mt-5 text-xs text-gray-500 leading-relaxed">
+                Sua doa&ccedil;&atilde;o ajuda a AACD a oferecer reabilita&ccedil;&atilde;o global para pacientes com defici&ecirc;ncia.
+              </p>
+              {isTaxDeduction && (
+                <div className="mt-4 rounded-xl p-4 text-xs leading-relaxed" style={{ backgroundColor: '#fff3f5', color: '#4a4a4a' }}>
+                  Voc&ecirc; poder&aacute; deduzir este valor no pr&oacute;ximo Imposto de Renda. Enviaremos o recibo por e-mail.
+                </div>
+              )}
+            </div>
+          </aside>
+
         </div>
       </div>
     </div>
